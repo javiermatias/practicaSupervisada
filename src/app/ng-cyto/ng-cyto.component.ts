@@ -64,8 +64,11 @@ export class NgCytoComponent implements OnChanges {
                 'target-arrow-shape': 'triangle',
                 'line-color': 'data(colorCode)',
                 'source-arrow-color': 'data(colorCode)',
-                'target-arrow-color': 'data(colorCode)'
-            })
+                'target-arrow-color': 'data(colorCode)',
+                'label': 'data(name)',
+                'font-size' : 10,
+                'text-margin-y':-6           
+             })
             .selector('edge.questionable')
             .css({
                 'line-style': 'dotted',

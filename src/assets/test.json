@@ -3,7 +3,7 @@
        {  
           "data":{  
              "id":"a",
-             "name":"Signup",
+             "name":"Paradigma",
              "weight":100,
              "colorCode":"blue",
              "shapeType":"roundrectangle"
@@ -12,7 +12,7 @@
        {  
           "data":{  
              "id":"b",
-             "name":"User Profile",
+             "name":"Lógico",
              "weight":100,
              "colorCode":"magenta",
              "shapeType":"roundrectangle"
@@ -21,7 +21,7 @@
        {  
           "data":{  
              "id":"c",
-             "name":"Billing",
+             "name":"Regla Lógica",
              "weight":100,
              "colorCode":"magenta",
              "shapeType":"roundrectangle"
@@ -30,7 +30,7 @@
        {  
           "data":{  
              "id":"d",
-             "name":"Sales",
+             "name":"Lógica de primer orden",
              "weight":100,
              "colorCode":"orange",
              "shapeType":"roundrectangle"
@@ -39,7 +39,7 @@
        {  
           "data":{  
              "id":"e",
-             "name":"Referral",
+             "name":"Preposición",
              "weight":100,
              "colorCode":"orange",
              "shapeType":"roundrectangle"
@@ -48,7 +48,7 @@
        {  
           "data":{  
              "id":"f",
-             "name":"Loan",
+             "name":"Lenguaje Formal",
              "weight":100,
              "colorCode":"orange",
              "shapeType":"roundrectangle"
@@ -57,7 +57,7 @@
        {  
           "data":{  
              "id":"j",
-             "name":"Support",
+             "name":"Nexo",
              "weight":100,
              "colorCode":"red",
              "shapeType":"ellipse"
@@ -66,7 +66,7 @@
        {  
           "data":{  
              "id":"k",
-             "name":"Sink Event",
+             "name":"Frase",
              "weight":100,
              "colorCode":"green",
              "shapeType":"ellipse"
@@ -79,6 +79,7 @@
              "source":"a",
              "target":"b",
              "colorCode":"blue",
+             "name":"Tipo",
              "strength":10
           }
        },
@@ -87,46 +88,52 @@
              "source":"b",
              "target":"c",
              "colorCode":"blue",
+             "name":"Basado En",
              "strength":10
           }
        },
        {  
           "data":{  
-             "source":"c",
+             "source":"b",
              "target":"d",
              "colorCode":"blue",
+             "name":"Utiliza",
              "strength":10
           }
        },
        {  
           "data":{  
-             "source":"c",
+             "source":"d",
              "target":"e",
              "colorCode":"blue",
+             "name":"Utiliza",
              "strength":10
           }
        },
        {  
           "data":{  
-             "source":"f",
-             "target":"e",
-             "colorCode":"blue",
-             "strength":10
-          }
-       },
-       {  
-          "data":{  
-             "source":"c",
+             "source":"d",
              "target":"f",
              "colorCode":"blue",
+             "name":"Posee",
              "strength":10
           }
        },
        {  
           "data":{  
-             "source":"e",
+             "source":"d",
              "target":"j",
+             "colorCode":"blue",
+             "name":"Utiliza",
+             "strength":10
+          }
+       },
+       {  
+          "data":{  
+             "source":"j",
+             "target":"e",
              "colorCode":"red",
+             "name":"Relación",
              "strength":10
           }
        },
@@ -135,6 +142,7 @@
              "source":"e",
              "target":"k",
              "colorCode":"green",
+             "name":"Equivale a",
              "strength":10
           }
        }
