@@ -1,6 +1,10 @@
-# Angular 7 Cytoscape Dagre Demo
+# Practica Supervisada
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+
+## Upload to https://javiermatias.github.io/practicaSupervisada/
+
+Run in CMD: `ngh --dir=dist/angular-2-cytoscape`.
 
 ## Development server
 
