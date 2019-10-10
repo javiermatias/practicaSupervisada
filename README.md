@@ -4,7 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Upload to https://javiermatias.github.io/practicaSupervisada/
 
-Run in CMD: `ngh --dir=dist/angular-2-cytoscape`.
+Run in CMD: `ng build --prod --base-href "https://javiermatias.github.io/practicaSupervisada/"`
+`ngh --dir=dist/angular-2-cytoscape`.
 
 ## Development server
 
