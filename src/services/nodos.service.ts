@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NodosService {
   
-
+private url = 'http://localhost:8080/api/grafos';
   constructor(private http: HttpClient) {
    
     this.getJSON().subscribe(data => {
@@ -17,6 +17,11 @@ export class NodosService {
    }
 
   public getJSON(): Observable<any> {
-    return this.http.get("./assets/test.json");
-}
+    return this.http.get("./assets/test1.json");
+  }
+
+  public getNodos(): Observable<any> {
+    return this.http.get(this.url);
+  }
+
 }

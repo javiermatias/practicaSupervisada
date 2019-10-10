@@ -7,6 +7,7 @@
 
 # dependencies
 /node_modules
+/Back-nodeJS/node_modules
 
 # IDEs and editors
 /.idea
