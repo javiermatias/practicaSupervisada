@@ -38,14 +38,15 @@ exports.buscar = function (req, res) {
 
 exports.prueba = function (req, res) {
   var db = conectarseBD();
-
+  
   db.query(
       'select * from Concepto limit 1'
    ).then(function(datos){
     
     for (let item of datos) {
-      //console.log(item); // Will display contents of the object inside the array
-  
+      console.log(item); // Will display contents of the object inside the array
+      var obparse = JSON.parse(JSON.stringify(item));
+      //console.log(obparse[4]);
       var keys = Object.keys(item);
 
       for(let key of keys){
@@ -77,49 +78,160 @@ exports.buscar1 = function (req, res) {
   var db = conectarseBD();
 
   db.query(
-      'select * from Concepto limit 1'
+      'select * from Concepto limit 10'
    ).then(function(datos){
     var nodes = [];
     var edges = [];
+    //var edges1 = [];
     //var _data = new Object();
     
     datos.forEach(function(item) {
 
-      
+      var obparse = JSON.parse(JSON.stringify(item));
       //JSON.stringify(item);
-      console.log(JSON.stringify(item));
+      //console.log(obparse);
+      //console.log(obparse);
       var nodo = Nodo(); 
       var grafo = Grafo();
-      //var res = str.split(" ", 1);
-      nodo.id= item["Nombre"].split(" ", 1); //Para que solo tome la primer palabra
-      nodo.name=item["Nombre"];  
-      var keys = Object.keys(item);
 
-      for(let key of keys){
-        var llave1 = key.slice(0,3);
-        var llave2 = key.slice(0,4);
-        if(llave1.includes('in')){
-          
+      //var res = str.split(" ", 1);
+/*       nodo.id= obparse["Nombre"].split(" ", 1); //Para que solo tome la primer palabra
+      nodo.name=obparse["Nombre"];  
+      var propiedades = Object.keys(obparse);
+
+      for(let prop of propiedades){
+       // var llave1 = prop.slice(0,3);
+        var llave2 = prop.slice(0,4);
+        if(llave2.includes('in')){          
          grafo.in.push(key.slice(3)); //borrar el in_
-          }
-          if(llave2.includes('out')){
-           
-            grafo.out.push(key.slice(4)); // borrar el out_
+         grafo.inId.push(obparse[prop])  
         }
-      }
+          if(llave2.includes('out')){           
+            grafo.out.push(prop.slice(4)); // borrar el out_
+            grafo.outId.push(obparse[prop]) 
+          }
+      } */
+
+      edges.push(obparse);
       grafo.nodo = nodo;
-      edges.push(grafo);
+      //edges.push(grafo);
       //console.log(grafo);
       nodos = {data: nodo};
       nodes.push(nodos);
       //console.log((item, index););
     });
+    const edges1 = edges.slice();
+    //var edges1 = edges;
+   // console.log("en el edge...");
+   /*  for (var j = 0; j <edges1.length; j++) {
+
+      var propiedadesBusqueda = Object.keys(edges1[j]);
+      //console.log("propiedades" + propiedadesBusqueda);
+      for(let props of propiedadesBusqueda){
+        var llave2 = props.slice(0,4);
+        //console.log(llave2);
+        if(llave2.includes('out')){   
+          console.log("arista:" + props.slice(4));
+
+          for(let edgeOut of edges1[j][props] ){
+
+            console.log("id:" + edgeOut );
+          
+          }
+
+        }
+
+      } */
+
+/*       console.log("en el edge"+edges[j])
+      var propiedadesBusqueda = Object.keys(edges[j]);
+      
+      for(let prop2 of propiedadesBusqueda){
+        var llave2 = prop2.slice(0,4);
+       console.log(llave2);
+        if(llave2.includes('out')){           
+       
+          console.log("Nodo Salida:" + edges[i]["Nombre"]);          
+          console.log("arista:" + prop.slice(4));
+          for(let edgeOut of edges[j][prop2] ){
+
+            console.log("id:" + edgeOut );
+          
+          }
+     
+        }
+     
+      } */
+
+
+    //}
+
+
+
+
+
+
 
     for (var i = 0; i <edges.length; i++) {
      
-      for (var j = 0; j < edges.length; j++) {
-     
-        for(let edgeIn of edges[i].in){
+     // for (var j = 0; j < edges.length; j++) {
+
+        var propiedades = Object.keys(edges[i]);
+        
+        for(let prop of propiedades){
+        var llave1 = prop.slice(0,3);
+
+        if(llave1.includes('in')){
+          //console.log("Nodo entrada:" + edges[i]["Nombre"]);          
+          //console.log("arista:" + prop.slice(3));
+
+          for(let edge of edges[i][prop] ){
+         
+           // console.log("id:" + edge );
+            //for interno
+            for (var j = 0; j <edges1.length; j++) {
+
+              var propiedadesBusqueda = Object.keys(edges1[j]);
+              //console.log("propiedades" + propiedadesBusqueda);
+              for(let props of propiedadesBusqueda){
+                var llave2 = props.slice(0,4);
+                //console.log(llave2);
+                if(llave2.includes('out')){   
+                  //console.log("arista:" + props.slice(4));
+        
+                  for(let edgeOut of edges1[j][props] ){
+        
+                    if(edge == edgeOut){
+
+                      if(edges1[j]["Nombre"] != edges[i]["Nombre"] ){
+                       
+                        var arista = Arista(); 
+                        console.log("Source" + edges1[j]["Nombre"] );
+                        console.log("Target" + edges[i]["Nombre"] );                      
+                        console.log("Arista" + edgeOut);
+
+                      }
+                     
+                    
+                    }
+                   
+                  
+                  }
+        
+                }
+        
+              }
+            }
+         
+         
+          }
+
+         // console.log("valores:" + edges[i][prop]);
+         }
+       
+       
+        }
+       /*  for(let edgeIn of edges[3]){
           
           for(let edgeOut of edges[j].out){
           
@@ -134,16 +246,16 @@ exports.buscar1 = function (req, res) {
               }
           
 
-          }
+          } 
           
 
-        }
+        } */
      
         
      
      
      
-      }
+      //}
       console.log("--------------------------------------------");
    
     }
@@ -172,6 +284,8 @@ function Grafo() {
   return {
     'in':  [],
     'out':  [],
+    'inId':  [],
+    'outId':  [],
     'nodo': '',
    
   };
