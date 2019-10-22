@@ -12,6 +12,8 @@ router.get('/', function (req, res) {
 
 var grafosController = require('./grafosController');
 
+router.route('/query').get(grafosController.buscarQuery);
+
 router.route('/grafos').get(grafosController.buscar1);
 
 router.route('/crudo').get(grafosController.buscar);

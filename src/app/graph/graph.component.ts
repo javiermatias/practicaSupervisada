@@ -3,6 +3,7 @@ import { NodosService } from "services/nodos.service";
 import { Grafo } from "app/models/grafos";
 import { data, Nodo } from "app/models/nodos";
 import { saveAs } from 'file-saver';
+import { ShareService } from "services/share.service";
 
 @Component({
     selector: 'cy-graph',
@@ -19,7 +20,8 @@ import { saveAs } from 'file-saver';
 export class GraphComponent implements OnInit {
    
     private retrivedata: any;
-
+    
+    private input:string = 'select * from Concepto limit 10';
     private grafo: Grafo;
 
     private nodes: Array<data>;
@@ -34,14 +36,14 @@ export class GraphComponent implements OnInit {
 
    graphData; 
     
-    constructor( private nodoService : NodosService  ) {
+    constructor( private nodoService : NodosService,private recibirService: ShareService  ) {
         this.nodes = new Array<data>();
         this.grafo = new Grafo();
     }
 
     getJsonFile(){
         this.nodoService.getJSON().subscribe(data => {
-            this.retrivedata=data;
+      /*       this.retrivedata=data;
             this.retrivedata.data.forEach(item => {
               
                 let _nodo = new Nodo();
@@ -54,13 +56,13 @@ export class GraphComponent implements OnInit {
                 let _data = new data(_nodo);
                // console.log('nodo', entry["@rid"])
                this.nodes.push(_data);
-              });
+              }); */
 
             this.graphData = data ;
         });
     }
  
-    getHardcodeServer(){
+    getGraphServer(){
         this.nodoService.getNodos().subscribe(data => {
           
             this.graphData = data ;
@@ -116,7 +118,8 @@ export class GraphComponent implements OnInit {
     }
     ngOnInit(){
        //this.getJsonServer();
-        this.getHardcodeServer();
+        //this.getGraphServer();
+        this.ejecutarQuery();
         //this.getJsonFile();
      /*    this.nodoService.getJSON().subscribe(data => {
             this.graphData = data ;
@@ -164,8 +167,29 @@ export class GraphComponent implements OnInit {
     }
     nodeChange(event) {
         this.node_name = event;
+        console.log(event);
+
     }
 
+    cargar(){
+        //console.log("Click en cargar");
+        //this.getJsonFile();
+   
+            // send message to subscribers via observable subject
+            this.recibirService.sendMessage('Enviado desde el padre!');
+      
+    
+    
+    }
 
+    ejecutarQuery(){
+
+        this.nodoService.getNodosQuery(this.input).subscribe(data => {
+          
+            this.graphData = data ;
+       
+         });
+       // console.log("Click en query" + this.input);
+    }
 
 }

@@ -1,8 +1,22 @@
-<div style="height: 90%; width: 80%; float: left; overflow: auto; overflow-y: hidden">
+<div class="row">
+    <div class="col-lg-9">
+        <input type="email" class="form-control" id="email"  name="email"  [(ngModel)]="input">
+
+    </div>
+
+    <div class="col-lg-3">
+        <button type="submit" class="btn btn-default" (click)="ejecutarQuery()">Ejecutar</button>
+    </div>
+
+</div>
+
+<div style="height: 90%; width: 90%; float: left; overflow: auto; overflow-y: hidden">
     <ng2-cytoscape [elements]="graphData" [layout]="layout" (select)="nodeChange($event)"></ng2-cytoscape>
 </div>
 
-<div style="height: 90%; width: 20%; float: left; overflow: auto; overflow-x: hidden">
-    <h1>Seleccionar el nodo: </h1>
-    <h2>{{node_name}}</h2>
+<div style="height: 90%; width: 10%; float: left; overflow: auto; overflow-x: hidden">
+    <h4>Seleccionar el nodo: </h4>
+    <h6>{{node_name}}</h6>
+
+    <button (click)="cargar()">Cargar</button>
 </div>

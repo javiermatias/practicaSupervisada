@@ -1,0 +1,14 @@
+select * from Relacion limit 100
+
+
+Métricas:
+
+
+-Ruta Mas larga.
+-Ruta Mas corta.(Ver como se podria hacer(Dijstra))
+-Centralidad de grado.
+-Conectividad(Cantidad de arcos que llegan o salen del nodo(Numero, ver de mostrar arriba o abajo.))
+-Longitud media de ruta(Cada nodo, recorro todos los arcos hasta el nodo hoja, la suma de todas las longitudes, divido con las rutas).
+-
+
+

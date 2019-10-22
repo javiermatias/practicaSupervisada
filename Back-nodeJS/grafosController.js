@@ -21,10 +21,13 @@ return db;
 
 
 exports.buscar = function (req, res) {
-    var db = conectarseBD();
+    
+  //var query = req.body.query;
+
+  var db = conectarseBD();
 
     db.query(
-        'select * from Concepto limit 10'
+      'select * from Relacion limit 100'
      ).then(function(data){
         
       
@@ -35,6 +38,122 @@ exports.buscar = function (req, res) {
  
 
 };
+
+
+exports.buscarQuery = function (req, res) {
+  
+  var _query = req.query.query; 
+  var db = conectarseBD();
+
+  db.query(
+          _query
+   ).then(function(datos){
+    var nodes = [];
+    var edgesAux = [];  
+    var edges = [];
+  
+    
+    datos.forEach(function(item) {
+
+      var obparse = JSON.parse(JSON.stringify(item)); 
+      var nodo = Nodo(); 
+      var grafo = Grafo();
+
+      nodo.id= obparse["Nombre"]; //Para que solo tome la primer palabra
+      nodo.name=obparse["Nombre"]; 
+      edgesAux.push(obparse);
+      grafo.nodo = nodo;
+      //edgesAux.push(grafo);
+      //console.log(grafo);
+      nodos = {data: nodo};
+      nodes.push(nodos);
+      //console.log((item, index););
+    });
+    const edges1 = edgesAux.slice();
+   
+    for (var i = 0; i <edgesAux.length; i++) {
+     
+     // for (var j = 0; j < edges.length; j++) {
+
+        var propiedades = Object.keys(edgesAux[i]);
+        
+        for(let prop of propiedades){
+        var llave1 = prop.slice(0,3);
+
+        if(llave1.includes('in')){
+          //console.log("Nodo entrada:" + edges[i]["Nombre"]);          
+          //console.log("arista:" + prop.slice(3));
+
+          for(let edge of edgesAux[i][prop] ){
+         
+           // console.log("id:" + edge );
+            //for interno
+            for (var j = 0; j <edges1.length; j++) {
+
+              var propiedadesBusqueda = Object.keys(edges1[j]);
+              //console.log("propiedades" + propiedadesBusqueda);
+              for(let props of propiedadesBusqueda){
+                var llave2 = props.slice(0,4);
+                //console.log(llave2);
+                if(llave2.includes('out')){   
+                  //console.log("arista:" + props.slice(4));
+        
+                  for(let edgeOut of edges1[j][props] ){
+        
+                    if(edge == edgeOut){
+
+                      if(edges1[j]["Nombre"] != edgesAux[i]["Nombre"] ){
+                       
+                        var arista = Arista(); 
+                        arista.source = edges1[j]["Nombre"] ;
+                        arista.target = edgesAux[i]["Nombre"] ;
+                        arista.name =  props.slice(4);
+                        aristasEdge = {data: arista};
+                        edges.push(aristasEdge);
+                        console.log("Source" + edges1[j]["Nombre"] );
+                        console.log("Target" + edgesAux[i]["Nombre"] );                      
+                        console.log("AristaID" + edgeOut);
+                        console.log("AristaNombre" + props.slice(4));
+                        
+                      }
+                     
+                    
+                    }
+                   
+                  
+                  }
+        
+                }
+        
+              }
+            }
+         
+         
+          }
+
+      
+         }
+       
+       
+        }
+
+      console.log("--------------------------------------------");
+   
+    }
+    
+
+      res.json({
+        nodes, edges 
+        });
+   
+   
+     });
+
+
+};
+
+
+
 
 exports.prueba = function (req, res) {
   var db = conectarseBD();
@@ -81,46 +200,30 @@ exports.buscar1 = function (req, res) {
       'select * from Concepto limit 10'
    ).then(function(datos){
     var nodes = [];
+    var edgesAux = [];
+    var aristas = [];
+
     var edges = [];
     //var edges1 = [];
     //var _data = new Object();
     
     datos.forEach(function(item) {
 
-      var obparse = JSON.parse(JSON.stringify(item));
-      //JSON.stringify(item);
-      //console.log(obparse);
-      //console.log(obparse);
+      var obparse = JSON.parse(JSON.stringify(item)); 
       var nodo = Nodo(); 
       var grafo = Grafo();
 
-      //var res = str.split(" ", 1);
-/*       nodo.id= obparse["Nombre"].split(" ", 1); //Para que solo tome la primer palabra
-      nodo.name=obparse["Nombre"];  
-      var propiedades = Object.keys(obparse);
-
-      for(let prop of propiedades){
-       // var llave1 = prop.slice(0,3);
-        var llave2 = prop.slice(0,4);
-        if(llave2.includes('in')){          
-         grafo.in.push(key.slice(3)); //borrar el in_
-         grafo.inId.push(obparse[prop])  
-        }
-          if(llave2.includes('out')){           
-            grafo.out.push(prop.slice(4)); // borrar el out_
-            grafo.outId.push(obparse[prop]) 
-          }
-      } */
-
-      edges.push(obparse);
+      nodo.id= obparse["Nombre"]; //Para que solo tome la primer palabra
+      nodo.name=obparse["Nombre"]; 
+      edgesAux.push(obparse);
       grafo.nodo = nodo;
-      //edges.push(grafo);
+      //edgesAux.push(grafo);
       //console.log(grafo);
       nodos = {data: nodo};
       nodes.push(nodos);
       //console.log((item, index););
     });
-    const edges1 = edges.slice();
+    const edges1 = edgesAux.slice();
     //var edges1 = edges;
    // console.log("en el edge...");
    /*  for (var j = 0; j <edges1.length; j++) {
@@ -172,11 +275,11 @@ exports.buscar1 = function (req, res) {
 
 
 
-    for (var i = 0; i <edges.length; i++) {
+    for (var i = 0; i <edgesAux.length; i++) {
      
      // for (var j = 0; j < edges.length; j++) {
 
-        var propiedades = Object.keys(edges[i]);
+        var propiedades = Object.keys(edgesAux[i]);
         
         for(let prop of propiedades){
         var llave1 = prop.slice(0,3);
@@ -185,7 +288,7 @@ exports.buscar1 = function (req, res) {
           //console.log("Nodo entrada:" + edges[i]["Nombre"]);          
           //console.log("arista:" + prop.slice(3));
 
-          for(let edge of edges[i][prop] ){
+          for(let edge of edgesAux[i][prop] ){
          
            // console.log("id:" + edge );
             //for interno
@@ -203,13 +306,19 @@ exports.buscar1 = function (req, res) {
         
                     if(edge == edgeOut){
 
-                      if(edges1[j]["Nombre"] != edges[i]["Nombre"] ){
+                      if(edges1[j]["Nombre"] != edgesAux[i]["Nombre"] ){
                        
                         var arista = Arista(); 
+                        arista.source = edges1[j]["Nombre"] ;
+                        arista.target = edgesAux[i]["Nombre"] ;
+                        arista.name =  props.slice(4);
+                        aristasEdge = {data: arista};
+                        edges.push(aristasEdge);
                         console.log("Source" + edges1[j]["Nombre"] );
-                        console.log("Target" + edges[i]["Nombre"] );                      
-                        console.log("Arista" + edgeOut);
-
+                        console.log("Target" + edgesAux[i]["Nombre"] );                      
+                        console.log("AristaID" + edgeOut);
+                        console.log("AristaNombre" + props.slice(4));
+                        
                       }
                      
                     
@@ -260,8 +369,12 @@ exports.buscar1 = function (req, res) {
    
     }
     
+/*     var grafo = new Grafo();
+grafo.nodes= nodes;
+grafo.edges= aristas; */
+// var jsObj = {    nodes,   aristas     };
       res.json({
-        nodes
+        nodes, edges 
         });
    
    
@@ -282,14 +395,12 @@ function Nodo() {
 
 function Grafo() {
   return {
-    'in':  [],
-    'out':  [],
-    'inId':  [],
-    'outId':  [],
-    'nodo': '',
+    'nodes':  [],
+    'edges':  []
+
    
   };
-};
+}; 
 
 function Arista() {
   return {

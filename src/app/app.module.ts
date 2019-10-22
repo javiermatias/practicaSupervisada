@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import {NgCytoComponent} from './ng-cyto/ng-cyto.component';
 import { NodosService } from 'services/nodos.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ShareService } from 'services/share.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
     
   ],
-  providers: [NodosService],
+  providers: [NodosService, ShareService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
