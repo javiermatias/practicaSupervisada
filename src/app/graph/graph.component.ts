@@ -4,6 +4,7 @@ import { Grafo } from "app/models/grafos";
 import { data, Nodo } from "app/models/nodos";
 import { saveAs } from 'file-saver';
 import { ShareService } from "services/share.service";
+import { Metrica } from "app/models/metrica";
 
 @Component({
     selector: 'cy-graph',
@@ -27,6 +28,8 @@ export class GraphComponent implements OnInit {
     private nodes: Array<data>;
     node_name: string;
 
+    metrica:Metrica;
+
     layout = {
                 name: 'dagre',
                 rankDir: 'LR',
@@ -39,25 +42,12 @@ export class GraphComponent implements OnInit {
     constructor( private nodoService : NodosService,private recibirService: ShareService  ) {
         this.nodes = new Array<data>();
         this.grafo = new Grafo();
+        this.metrica = new Metrica();
     }
 
     getJsonFile(){
         this.nodoService.getJSON().subscribe(data => {
-      /*       this.retrivedata=data;
-            this.retrivedata.data.forEach(item => {
-              
-                let _nodo = new Nodo();
-                _nodo.id= item["Nombre"];
-                _nodo.name=item["Nombre"];               
-                _nodo.weight=100;
-                _nodo.colorCode="blue"
-                _nodo.shapeType="roundrectangle";
-
-                let _data = new data(_nodo);
-               // console.log('nodo', entry["@rid"])
-               this.nodes.push(_data);
-              }); */
-
+     
             this.graphData = data ;
         });
     }
@@ -117,53 +107,9 @@ export class GraphComponent implements OnInit {
          });
     }
     ngOnInit(){
-       //this.getJsonServer();
-        //this.getGraphServer();
+ 
         this.ejecutarQuery();
-        //this.getJsonFile();
-     /*    this.nodoService.getJSON().subscribe(data => {
-            this.graphData = data ;
-        }); */
-
-        /* this.nodoService.getNodos().subscribe(dato => {
-            //console.log(data);
-            this.retrivedata = dato;
-            console.log(dato.data[0]);
-      
-            for (let entry of dato.data) {
-                
-                let _nodo = new Nodo();
-                _nodo.id= entry["@rid"];
-                _nodo.name=entry["Nombre"];               
-                _nodo.weight=100;
-                _nodo.colorCode="blue"
-                _nodo.shapeType="roundrectangle";
-
-                let _data = new data(_nodo);
-               // console.log('nodo', entry["@rid"])
-               this.nodes.push(_data);
-            } 
-            this.grafo.nodes=this.nodes;
-            console.log(this.grafo);
-            this.graphData = JSON.stringify(this.grafo);
-            //this.graphData = this.grafo;
-            console.log(JSON.stringify(this.grafo));
-         }); */
-    /*      "@type":"d",
-         "@class":"Concepto",
-         "Nombre":"POO",
-         "in_Tipo":[ 
-            "#14:0"
-         ],
-         "out_BasadoEn":[ 
-            "#15:0"
-         ],
-         "out_Define":[ 
-            "#37:1"
-         ],
-         "@rid":"#11:0",
-         "@version":4 */
-     
+    
     }
     nodeChange(event) {
         this.node_name = event;
@@ -171,25 +117,41 @@ export class GraphComponent implements OnInit {
 
     }
 
-    cargar(){
-        //console.log("Click en cargar");
-        //this.getJsonFile();
-   
-            // send message to subscribers via observable subject
-            this.recibirService.sendMessage('Enviado desde el padre!');
-      
-    
-    
-    }
-
     ejecutarQuery(){
 
         this.nodoService.getNodosQuery(this.input).subscribe(data => {
           
             this.graphData = data ;
-       
+           // this.retrivedata = data.slice();
          });
        // console.log("Click en query" + this.input);
     }
 
+
+    aristasIncidentes(){
+       
+          
+          //  this.graphData = this.retrivedata ;
+            this.recibirService.sendMessage('GradoEntrante');
+      
+       
+    }
+
+    aristasSalientes(){
+        //this.graphData = this.retrivedata;
+        this.recibirService.sendMessage('GradoSaliente');
+    }
+
+
+    gradoVertice(){
+        //this.graphData = this.retrivedata;
+        this.recibirService.sendMessage('GradoVertice');
+    }
+
+    metricas(_metrica:Metrica){
+        console.log(_metrica);
+        this.metrica=_metrica;
+        console.log(this.metrica);
+       // console.log(_metrica);
+    }
 }
