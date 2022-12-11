@@ -27,7 +27,7 @@
     "core-js": "^2.5.4",
     "cytoscape": "^3.2.0",
     "cytoscape-dagre": "^2.2.2",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "file-saver": "^2.0.2",
     "path": "^0.12.7",
     "rxjs": "~6.3.3",
